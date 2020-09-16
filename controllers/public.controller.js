@@ -149,7 +149,12 @@ exports.getSearchResult = async (req, res) => {
     );
   } else {
     Lot.find(
-      { name: new RegExp(text, "i"), city_id: city_id },
+      {
+        $or: [
+          { name: new RegExp(text, "i"), city_id: city_id },
+          { area_name: new RegExp(text, "i"), city_id: city_id },
+        ],
+      },
       " -cover_image -active_plots_list -passive_plots_list",
       (err, lots) => {
         if (!err) {
