@@ -131,7 +131,7 @@ exports.getSearchResult = async (req, res) => {
   const text = req.params.text;
   console.log(text);
   const city_id = req.params.city_id;
-  if (text === "SEND_ALL") {
+  if (text === "SEND_ALL" || text == "" || text == null || text == "-") {
     Lot.find(
       { city_id: city_id },
       " -cover_image -active_plots_list -passive_plots_list",
