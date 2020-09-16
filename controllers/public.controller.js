@@ -132,28 +132,36 @@ exports.getSearchResult = async (req, res) => {
   console.log(text);
   const city_id = req.params.city_id;
   if (text === "SEND_ALL") {
-    Lot.find({ city_id: city_id }, (err, lots) => {
-      if (!err) {
-        return res.status(200).send({
-          lots,
-        });
-      } else {
-        return res.status(400).send({
-          error: err,
-        });
+    Lot.find(
+      { city_id: city_id },
+      " -cover_image -active_plots_list -passive_plots_list",
+      (err, lots) => {
+        if (!err) {
+          return res.status(200).send({
+            lots,
+          });
+        } else {
+          return res.status(400).send({
+            error: err,
+          });
+        }
       }
-    });
+    );
   } else {
-    Lot.find({ name: new RegExp(text, "i"), city_id: city_id }, (err, lots) => {
-      if (!err) {
-        return res.status(200).send({
-          lots,
-        });
-      } else {
-        return res.status(400).send({
-          error: err,
-        });
+    Lot.find(
+      { name: new RegExp(text, "i"), city_id: city_id },
+      " -cover_image -active_plots_list -passive_plots_list",
+      (err, lots) => {
+        if (!err) {
+          return res.status(200).send({
+            lots,
+          });
+        } else {
+          return res.status(400).send({
+            error: err,
+          });
+        }
       }
-    });
+    );
   }
 };
